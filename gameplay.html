@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle"></title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+</head>
+<body data-page-key="Gameplay">
+
+  <!-- HEADER -->
+  <header class="site-header-top">
+    <div class="header-content">
+      <div id="logoTitle" class="logo-title"></div>
+      <nav class="header-nav">
+        <a id="backToHomeNav" href="index.html"></a>
+        <a id="gameplayLinkNav" href="gameplay.html"></a>
+      </nav>
+      <div class="language-selector-container">
+        <select id="languageSelector"></select>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <h1 id="gameplayTitle"></h1>
+    <section class="posts-section" id="gameplayPostsSection">
+      <div id="gameplayPostsContainer" class="posts-grid"></div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-links-section">
+        <ul>
+          <li><a id="contactLinkFooter" href="contact.html"></a></li>
+          <li><a id="privacyLinkFooter" href="privacy.html"></a></li>
+          <li><a id="termsLinkFooter" href="terms.html"></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p id="copyright"></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init({ once: true });</script>
+
+  <script src="lang.js"></script>
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module">
+    import { db } from "./firebase-init.js";
+    import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+    const postsContainer = document.getElementById('gameplayPostsContainer');
+
+    async function loadGameplayPosts() {
+      if (!window.lang) {
+        setTimeout(loadGameplayPosts, 100);
+        return;
+      }
+      postsContainer.innerHTML = `<p style="text-align:center;color:white;">${window.lang.t('loading')}</p>`;
+      try {
+        const q = query(collection(db, "gameplay_posts"), orderBy("created", "asc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          postsContainer.innerHTML = `<p style="text-align:center;color:white;">${window.lang.t('noPosts')}</p>`;
+          return;
+        }
+
+        postsContainer.innerHTML = '';
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          let imgUrl = data.imageUrl || '';
+          if (imgUrl.includes("github.com") && imgUrl.includes("/blob/")) {
+            imgUrl = imgUrl
+              .replace("https://github.com/", "https://raw.githubusercontent.com/")
+              .replace("/blob/", "/");
+          }
+          const postEl = document.createElement("div");
+          postEl.className = "post-card";
+          postEl.setAttribute("data-aos", "fade-up");
+          postEl.innerHTML = `
+            ${imgUrl ? `<img src="${imgUrl}" alt="Gameplay Image" class="post-image" />` : ""}
+            <div class="post-text">
+              <h3 class="post-title">${data.title}</h3>
+              <p class="post-content">${data.content}</p>
+            </div>`;
+          postsContainer.appendChild(postEl);
+        });
+        setTimeout(()=>AOS.refresh(),50);
+      } catch (err) {
+        postsContainer.innerHTML = `<p style="text-align:center;color:red;">${err.message}</p>`;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadGameplayPosts);
+  </script>
+</body>
+</html>

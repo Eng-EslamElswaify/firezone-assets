@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="adminPanelTitle"></title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body id="admin-page" data-page-key="Admin">
+
+  <!-- HEADER -->
+  <header class="site-header-top">
+    <div class="header-content">
+      <div id="logoTitle" class="logo-title"></div>
+      <nav class="header-nav">
+        <a id="backToHomeNav" href="index.html"></a>
+        <a id="gameplayLinkNav" href="gameplay.html"></a>
+      </nav>
+      <div class="header-controls">
+        <div class="language-selector-container">
+          <select id="languageSelector"></select>
+        </div>
+        <button id="logoutBtn"></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="admin-main">
+    <!-- News Posts Section -->
+    <section id="posts-section">
+      <div class="section-header">
+        <h2 id="latestPostsTitle"></h2>
+        <button id="newPostBtn" class="btn-admin"></button>
+      </div>
+      <table id="postsTable" class="admin-table">
+        <thead>
+          <tr>
+            <th id="postsTableTitleHeader"></th>
+            <th id="postsTableActionsHeader"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- News Post Form -->
+    <section id="postFormSection" class="hidden admin-form-section">
+      <h2 id="formTitle"></h2>
+      <form id="postForm">
+        <input type="hidden" id="postId">
+        <label for="title" id="titleLabel"></label>
+        <input type="text" id="title" required>
+        
+        <label for="content" id="contentLabel"></label>
+        <textarea id="content" rows="6" required></textarea>
+
+        <label for="imageInput" id="imageUploadLabel"></label>
+        <input type="file" id="imageInput" accept="image/*">
+        
+        <label for="imageUrlInput" id="imageUrlLabel"></label>
+        <input type="url" id="imageUrlInput" placeholder="https://example.com/image.png">
+        <div id="imagePreview" class="image-preview"></div>
+
+        <div class="form-actions">
+          <button type="submit" id="saveBtn" class="btn-admin"></button>
+          <button type="button" id="cancelBtn" class="btn-admin-ghost"></button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Gameplay Posts Section -->
+    <section id="gameplay-section">
+      <div class="section-header">
+        <h2 id="gameplaySectionTitleAdmin"></h2>
+        <button id="newGameplayPostBtn" class="btn-admin"></button>
+      </div>
+      <table id="gameplayPostsTable" class="admin-table">
+        <thead>
+          <tr>
+            <th id="gameplayPostsTableTitleHeader"></th>
+            <th id="gameplayPostsTableActionsHeader"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Gameplay Post Form -->
+    <section id="gameplayPostFormSection" class="hidden admin-form-section">
+      <h2 id="gameplayFormTitle"></h2>
+      <form id="gameplayPostForm">
+        <input type="hidden" id="gameplayPostId">
+        <label for="gameplayTitle" id="gameplayTitleLabel"></label>
+        <input type="text" id="gameplayTitle" required>
+        
+        <label for="gameplayContent" id="gameplayContentLabel"></label>
+        <textarea id="gameplayContent" rows="6" required></textarea>
+
+        <label for="gameplayImageInput" id="gameplayImageUploadLabel"></label>
+        <input type="file" id="gameplayImageInput" accept="image/*">
+
+        <label for="gameplayImageUrlInput" id="gameplayImageUrlLabel"></label>
+        <input type="url" id="gameplayImageUrlInput" placeholder="https://example.com/image.png">
+        <div id="gameplayImagePreview" class="image-preview"></div>
+
+        <div class="form-actions">
+          <button type="submit" id="gameplaySaveBtn" class="btn-admin"></button>
+          <button type="button" id="gameplayCancelBtn" class="btn-admin-ghost"></button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-links-section">
+        <ul>
+          <li><a id="contactLinkFooter" href="contact.html"></a></li>
+          <li><a id="privacyLinkFooter" href="privacy.html"></a></li>
+          <li><a id="termsLinkFooter" href="terms.html"></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p id="copyright"></p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="lang.js"></script>
+  <script type="module" src="firebase-init.js"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
